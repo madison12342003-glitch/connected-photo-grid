@@ -85,15 +85,45 @@ def scalar_score(a, b) -> float:
         return 0.0
 
 
-def pair_score(a: dict, b: dict) -> Tuple[float, Dict[str, float]]:
+def edge_score(a: dict, b: dict, edge: str) -> Tuple[float, Dict[str, float]]:
+    """Score the two edges that actually touch.
+
+    The edge-specific fields are optional:
+      right_edge / left_edge for horizontal neighbors
+      bottom_edge / top_edge for vertical neighbors
+
+    Each edge may contain direction, shapes, colors, elements, texture,
+    and space. When edge data is absent, the function falls back to the
+    whole-photo features.
+    """
+    if edge == "horizontal":
+        ea = a.get("right_edge", {})
+        eb = b.get("left_edge", {})
+    else:
+        ea = a.get("bottom_edge", {})
+        eb = b.get("top_edge", {})
+
+    def pick(name, whole_a, whole_b):
+        va = ea.get(name, whole_a)
+        vb = eb.get(name, whole_b)
+        return va, vb
+
+    ad, bd = pick("direction", a.get("direction"), b.get("direction"))
+    ashape, bshape = pick("shape", a.get("shape"), b.get("shape"))
+    acolor, bcolor = pick("colors", a.get("colors", a.get("color")), b.get("colors", b.get("color")))
+    aobj, bobj = pick("elements", a.get("elements", a.get("object")), b.get("elements", b.get("object")))
+    atex, btex = pick("texture", a.get("texture"), b.get("texture"))
+    aspace, bspace = pick("space", a.get("space"), b.get("space"))
+    anar, bnar = pick("narrative", a.get("narrative"), b.get("narrative"))
+
     details = {
-        "direction": direction_score(a.get("direction"), b.get("direction")),
-        "shape": tag_score(a.get("shape"), b.get("shape")),
-        "color": tag_score(a.get("colors", a.get("color")), b.get("colors", b.get("color"))),
-        "object": tag_score(a.get("elements", a.get("object")), b.get("elements", b.get("object"))),
-        "texture": tag_score(a.get("texture"), b.get("texture")),
-        "space": tag_score(a.get("space"), b.get("space")),
-        "narrative": tag_score(a.get("narrative"), b.get("narrative")),
+        "direction": direction_score(ad, bd),
+        "shape": tag_score(ashape, bshape),
+        "color": tag_score(acolor, bcolor),
+        "object": tag_score(aobj, bobj),
+        "texture": tag_score(atex, btex),
+        "space": tag_score(aspace, bspace),
+        "narrative": tag_score(anar, bnar),
     }
     total_weight = sum(WEIGHTS.values())
     weighted = sum(details[k] * WEIGHTS[k] for k in DIMENSIONS)
