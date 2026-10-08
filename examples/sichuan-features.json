@@ -1,0 +1,13 @@
+{
+  "photos": [
+    {"id":"A","direction":25,"shape":["ridge","diagonal"],"colors":["green","white"],"elements":["mountain","cloud"],"texture":["rock"],"space":"left","narrative":["opening","landscape"]},
+    {"id":"B","direction":30,"shape":["diagonal"],"colors":["red","green","white"],"elements":["prayer_flag","cloud"],"texture":["fabric"],"space":"center","narrative":["transition","culture"]},
+    {"id":"C","direction":20,"shape":["vertical"],"colors":["red","white"],"elements":["temple"],"texture":["wall"],"space":"right","narrative":["culture","landmark"]},
+    {"id":"D","direction":60,"shape":["diagonal","curve"],"colors":["gray","green"],"elements":["road","mountain"],"texture":["asphalt"],"space":"left","narrative":["movement","journey"]},
+    {"id":"E","direction":15,"shape":["horizontal"],"colors":["blue","white","green"],"elements":["river","cloud"],"texture":["water"],"space":"center","narrative":["connector","water"]},
+    {"id":"F","direction":10,"shape":["vertical","curve"],"colors":["white","blue"],"elements":["waterfall","rock"],"texture":["water","rock"],"space":"right","narrative":["movement","water"]},
+    {"id":"G","direction":0,"shape":["horizontal"],"colors":["green","yellow"],"elements":["grassland","flower"],"texture":["grass"],"space":"left","narrative":["quiet","landscape"]},
+    {"id":"H","direction":5,"shape":["organic"],"colors":["green","red","black"],"elements":["yak","flower"],"texture":["fur","grass"],"space":"center","narrative":["local_detail","life"]},
+    {"id":"I","direction":20,"shape":["ridge","horizontal"],"colors":["white","blue","red"],"elements":["snow_mountain","prayer_flag"],"texture":["snow","rock"],"space":"right","narrative":["closing","landscape"]}
+  ]
+}
