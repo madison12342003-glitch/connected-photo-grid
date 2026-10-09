@@ -18,7 +18,7 @@ Keep original photos on your own computer; they do **not** need to be committed 
 python -m pip install Pillow
 # Put nine local photos in input/photos/ named A.jpg ... I.jpg
 python scripts/score_layout.py examples/sichuan-features.json --top 1 --output output/layout.json
-python scripts/compose_grid.py examples/sichuan-render-plan.json output/layout.json --photo-root input/photos --output output/sichuan-grid.png --size 3000
+python scripts/compose_grid.py output/render-plan.json output/layout.json --photo-root input/photos --output output/sichuan-grid.png --size 3000
 ```
 
 The example feature records and tile plan are demonstrations. Before using them for a real trip, update metadata and image paths to match the actual photos. You may set a font file path in the render plan; use a font that supports the scripts used in your captions.
@@ -37,7 +37,7 @@ The example feature records and tile plan are demonstrations. Before using them 
 - `examples/sichuan-multilayer-plan.md` — Sichuan editorial collage planning guide
 - `examples/sichuan-features.json` — sample metadata for the layout scorer
 - `examples/sichuan-render-plan.json` — sample local-photo mapping and captions
-- `scripts/analyze_photos.py` — local pixel-level feature extractor\n- `scripts/select_photos.py` — heuristic nine-photo shortlist selector\n- `scripts/score_layout.py` — edge-aware layout scorer
+- `scripts/analyze_photos.py` — local pixel-level feature extractor\n- `scripts/select_photos.py` — heuristic nine-photo shortlist selector\n- `scripts/make_render_plan.py` — maps selected photos to an editable renderer plan\n- `scripts/score_layout.py` — edge-aware layout scorer
 - `scripts/compose_grid.py` — local PNG composition/export tool
 - `tests/test_score_layout.py` — scorer tests
 - `.github/workflows/tests.yml` — automated checks on pushes and pull requests
