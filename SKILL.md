@@ -1,263 +1,137 @@
 ---
 name: connected-photo-grid
-description: Turn a collection of photographs into a coherent 3x3 connected photo composition. Select the strongest nine images, analyze visual relationships between neighboring images, and create cross-grid continuity through matching shapes, colors, directions, objects, textures, and spatial forms.
+description: Design a coherent 3×3 multi-layer editorial photo collage from a collection of photographs. Select nine images, plan per-tile photo and graphic layers, build a restrained visual system, and review both literal cross-grid continuity and visual echoes.
 ---
 
-# Connected Photo Grid
+# Connected Photo Grid — Multi-Layer Edition
 
-将多张照片组织成一个具有跨格视觉连续性的 3×3 摄影作品。
+Turn a collection of photographs into one intentional 3×3 editorial composition. Each tile may contain a stack of photographs, background, illustration, line art, typography, and graphic accents. The result must feel like one designed work, not merely nine photos in a grid.
 
-核心原则：
+## Core principles
 
-> 九张照片不是九个独立画面，而是一张被切成九块的整体视觉作品。
+1. Preserve the truth and recognizable subject of source photographs.
+2. Design the whole nine-tile system and the individual tile compositions together.
+3. Use a consistent background, palette, typography, and limited motif family.
+4. Use both literal continuity and visual echoes; do not force every boundary to connect seamlessly.
+5. Use illustrations only when they are relevant, respectful, and stylistically consistent.
+6. Add meaningful text as real editable typography, not AI-generated lettering.
+7. Prioritize hierarchy, breathing room, mobile readability, and a believable photographic feel.
 
-## Decision Priority
+## Workflow
 
-发生冲突时，按以下优先级：
+### 1. Inventory every available source
+Analyze all supplied photos before selecting. Do not assume upload order is preference order. Assign each image an ID and record:
+- subject, scene, and narrative value
+- dominant colors and light/weather
+- focal point and safe crop
+- horizon and strong visual directions
+- useful features near all four edges
+- texture, shapes, and negative space
+- cultural or documentary details that must remain accurate
+- possible tile roles and possible neighbors
 
-1. 摄影主体可识别
-2. 原始照片质感保持
-3. 相邻照片之间形成明确视觉连接
-4. 整体构图优先于单张照片
-5. 色彩关系统一
-6. 避免过度 AI 化
-7. 避免为了连接而破坏原始照片
+Be explicit when some historical attachments are unavailable; never claim to have inspected files you cannot access.
 
----
+### 2. Select and sequence the nine
+Choose for variety, image quality, story, color, and design flexibility. Avoid nine near-duplicates. Keep a shortlist and backups. Explain exclusions briefly if asked. The center should usually anchor the story, while corners and edge tiles frame or direct the eye; these are heuristics, not rigid rules.
 
-# Workflow
+### 3. Analyze the visual reference
+Extract transferable rules rather than copying unrelated content:
+- grid, margins, and background
+- photo-to-graphic ratio
+- layer stacks within each tile
+- palette and accent distribution
+- typography hierarchy
+- line-art and illustration style
+- recurring motifs, visual echoes, and true cross-grid paths
+- density and negative-space rhythm
 
-## Step 1 — Analyze All Images
+See `references/reference-analysis.md`.
 
-分析全部输入照片，而不是只分析前 9 张。
-
-为每张照片提取：
-
-- main subject
-- dominant colors
-- horizon direction
-- major diagonal lines
-- strong shapes
-- foreground
-- middle ground
-- background
-- sky / mountain / water / road regions
-- human / animal / architecture
-- distinctive local cultural elements
-- visual movement
-- possible incoming connection
-- possible outgoing connection
-
----
-
-## Step 2 — Select the Best Nine
-
-不要默认选择前九张。
-
-综合考虑：
-
-- photographic quality
-- subject diversity
-- visual compatibility
-- color compatibility
-- directional compatibility
-- connection potential
-- narrative value
-
-避免九张照片内容高度重复。
-
----
-
-## Step 3 — Build the Connection Graph
-
-建立 3×3 网格：
-
+### 4. Build the nine-tile plan
+Use the A–I grid:
 ```text
 A B C
 D E F
 G H I
 ```
+For every tile specify:
+- role in the whole composition
+- primary photo and crop
+- optional secondary photo/detail
+- background
+- illustration and line art
+- exact text, if any
+- graphic accents and colors
+- connection or echo to neighboring tiles
+- layers to omit to preserve negative space
 
-分析 12 条主要邻接关系：
+Use the tile stack as a menu, not a mandatory checklist:
+1. background
+2. primary photo
+3. secondary photo/detail
+4. illustration
+5. line art
+6. typography
+7. color extension
+8. cross-grid layer
 
-```text
-A-B
-B-C
-D-E
-E-F
-G-H
-H-I
-A-D
-D-G
-B-E
-E-H
-C-F
-F-I
-```
+### 5. Establish the visual system
+Define the background, palette, type system, line weights, photo treatments, margins, and a small motif family before producing detailed tiles. For a white social-feed context, consider warm white/off-white backgrounds, charcoal/black typography and line art, and restrained red accents while preserving natural photo colors. Treat palette values as starting points, not commands to recolor reality.
 
-每条连接评估：
+### 6. Source and make graphic elements
+Use this priority:
+1. details extracted from the user's photos
+2. contextually supported elements
+3. licensed/permitted assets
+4. newly generated assets where a genuine gap remains
 
-- direction continuity
-- shape continuity
-- color continuity
-- object continuity
-- texture continuity
-- spatial continuity
-- narrative continuity
+Generate individual illustration assets rather than the entire collage when control and editability matter. Record source and style. Do not add stereotypical regional symbols without scene evidence or user approval. Treat religious and cultural imagery respectfully. See `references/element-layer.md`.
 
----
+### 7. Plan connections
+Review all 12 horizontal and vertical neighbor pairs. Use:
+- literal continuation: ridge, road, river, line art, or a designed graphic path
+- visual echo: color, shape, texture, motif, typography, or narrative
+- deliberate contrast when it improves rhythm
 
-## Step 4 — Identify Connection Anchors
+Use edge-specific geometry where possible, not a single direction angle for the whole photo. Plan cross-tile artwork on one full canvas and slice it afterward. Do not imply separate photos are the same continuous real-world scene. See `references/cross-grid-rules.md`.
 
-每张图片寻找：
+### 8. Compose and render
+Work in this order:
+1. rough nine-tile layout with photo crops
+2. whole-grid balance and color
+3. per-tile backgrounds and secondary details
+4. illustrations and line art
+5. typography with verified text
+6. accents and cross-grid paths
+7. final crop, spacing, and export
 
-- incoming anchor
-- outgoing anchor
+If a rendering tool is available, create a low-resolution proof first. Otherwise provide a precise implementation-ready layout specification. Never claim to have exported a final image unless the file was actually created.
 
-连接可以通过：
+### 9. Quality gate
+Check:
+- each tile has one clear focal point
+- the grid reads as a whole at phone size
+- photo subjects remain recognizable and realistic
+- all 12 boundaries have been reviewed
+- literal paths align after slicing
+- echoes are varied rather than repetitive
+- background and margins suit the intended display
+- text spelling and script rendering are verified
+- generated assets do not masquerade as documentary evidence
+- no accidental tangencies, clipped subjects, or clutter
+- final export dimensions and tile order are correct
 
-- continuation
-- extension
-- overlap
-- visual echo
-- color bridge
-- shape bridge
-- directional movement
+## References
+Use the relevant focused guides:
+- `references/layout-system.md`
+- `references/photo-layer.md`
+- `references/element-layer.md`
+- `references/line-art-layer.md`
+- `references/typography-layer.md`
+- `references/color-system.md`
+- `references/cross-grid-rules.md`
+- `references/reference-analysis.md`
 
-实现。
-
-例如：
-
-```text
-mountain ridge
-      ↓
-prayer flag
-      ↓
-river
-      ↓
-waterfall
-      ↓
-road
-      ↓
-grassland
-```
-
-这里的例子不是固定模板。Agent 应根据实际照片寻找真实存在的视觉关系。
-
----
-
-## Step 5 — Compose the 3×3
-
-优先保证整体构图。
-
-允许：
-
-- 山脊跨越边界
-- 道路方向延伸到下一格
-- 河流从一格流入另一格
-- 经幡颜色跨格呼应
-- 云层形状跨格延续
-- 花、草、石头形成视觉接力
-- 建筑轮廓与下一张照片形成形状呼应
-
-不要让每张图片都只是独立的“照片卡片”。
-
----
-
-## Step 6 — Preserve Photographic Reality
-
-默认：
-
-- 保留真实摄影质感
-- 保留原始光影
-- 保留真实纹理
-- 保留自然颜色
-- 不把照片变成插画
-- 不加入没有来源的幻想物体
-- 不使用过度超现实元素
-
-如果用户指定风格，再进行风格化。
-
----
-
-## Step 7 — Apply Global Color Direction
-
-当用户指定整体色彩方向时，优先进行全局统一，而不是逐张强行上色。
-
-例如用户指定：
-
-```text
-black + dark red
-```
-
-可以通过：
-
-- 深红经幡
-- 红色衣物
-- 红色建筑
-- 暗红夕阳
-- 黑色山体
-- 深色阴影
-
-形成整体色彩关系。
-
-同时保留原照片中的少量自然颜色作为视觉跳色。
-
----
-
-# Quality Gate
-
-最终输出前检查：
-
-## Composition
-
-- 是否真的形成 3×3 整体？
-- 是否存在明确的视觉流动？
-- 中心区域是否过重？
-
-## Connections
-
-检查全部 12 条邻接关系。
-
-每条关系都应该有明确的视觉理由；如果连接明显失败，应优先重新排列照片，而不是强行添加装饰。
-
-## Photography
-
-- 原照片是否仍然真实？
-- 主体是否被破坏？
-- 是否出现明显 AI 生成痕迹？
-
-## Color
-
-- 是否具有统一的整体色彩方向？
-- 是否仍保留自然照片中的颜色？
-
-## Local Identity
-
-如果照片来自特定地区：
-
-- 地貌是否真实？
-- 建筑是否真实？
-- 文化元素是否真实？
-- 是否加入了不存在的“旅游符号”？
-
-## Final Test
-
-缩小到手机屏幕尺寸观看。
-
-如果只能看到“9 张漂亮照片”，而看不到“一张完整作品”，则需要重新排列。
-
----
-
-# Output Principle
-
-默认优先输出最终视觉作品。
-
-如果用户要求解释，则说明：
-
-1. 为什么选择这九张
-2. 主要视觉连接是什么
-3. 整体构图的视觉动线是什么
-4. 色彩策略是什么
-
-不要默认输出完整内部推理或冗长过程。
+## Output contract
+Unless asked for a finished render, start with a concise design plan: photo choices, tile roles, layer stacks, palette, typography, and cross-grid relationships. Distinguish observed facts from proposals. Ask only for information that is essential to proceed.
