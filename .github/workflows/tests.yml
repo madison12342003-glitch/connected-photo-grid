@@ -1,0 +1,20 @@
+name: Skill tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run layout scorer tests
+        run: python -m unittest discover -s tests -v
+      - name: Smoke-test example CLI
+        run: python scripts/score_layout.py examples/sichuan-features.json --top 1 --output /tmp/layout.json
