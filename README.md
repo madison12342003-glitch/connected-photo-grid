@@ -4,8 +4,8 @@
 
 ## Pipeline
 
-1. **Photo inventory and visual analysis** — record subjects, colors, direction, negative space, crop flexibility, and edge-specific features. At present this metadata is supplied manually or by an external vision model; the scorer itself does not analyze pixels.
-2. **Rank layouts** — score the 12 horizontal/vertical neighbor relationships among nine selected photos.
+1. **Photo inventory and visual analysis** — `scripts/analyze_photos.py` can now read local image files and estimate dominant colors, brightness, texture, direction, aspect ratio, and edge features. It does not recognize objects or understand narrative; those tags still need human input or a vision model.
+2. **Rank layouts** — curate exactly nine photo records from the analysis JSON, then score the 12 horizontal/vertical neighbor relationships among them.
 3. **Prepare tile plan** — map photo IDs to local file paths and optional title/caption text in `examples/sichuan-render-plan.json`.
 4. **Render/export** — use `scripts/compose_grid.py` to export a high-resolution square PNG. The current renderer supports photo crops, warm-white gutters, a caption panel, typography, and a small red accent per tile.
 5. **Review and refine** — inspect on a phone, check Chinese/Tibetan glyph support with a suitable local font, correct crops, and iterate.
@@ -37,14 +37,14 @@ The example feature records and tile plan are demonstrations. Before using them 
 - `examples/sichuan-multilayer-plan.md` — Sichuan editorial collage planning guide
 - `examples/sichuan-features.json` — sample metadata for the layout scorer
 - `examples/sichuan-render-plan.json` — sample local-photo mapping and captions
-- `scripts/score_layout.py` — edge-aware layout scorer
+- `scripts/analyze_photos.py` — local pixel-level feature extractor\n- `scripts/score_layout.py` — edge-aware layout scorer
 - `scripts/compose_grid.py` — local PNG composition/export tool
 - `tests/test_score_layout.py` — scorer tests
 - `.github/workflows/tests.yml` — automated checks on pushes and pull requests
 
 ## Limits / next step
 
-This is now a usable **metadata → ranked layout → basic PNG export** path, but it is not yet the full automated visual-analysis and art-directed multilayer pipeline. The scorer does not inspect photo pixels, and the renderer currently creates a clean editorial grid rather than arbitrary overlapping cutouts, complex line art, or cross-tile illustration. Those are the next implementation layer. Original photographs remain local, so large images need not be uploaded to the repository.
+This is now a partial **local photo analysis → curated nine-photo metadata → ranked layout → basic PNG export** path. Pixel analysis estimates color/texture/geometry but does not perform semantic object recognition or automatically select the best nine. The renderer currently creates a clean editorial grid rather than arbitrary overlapping cutouts, complex line art, or cross-tile illustration. Those are the next implementation layer. Original photographs remain local, so large images need not be uploaded to the repository.
 
 ## License
 
