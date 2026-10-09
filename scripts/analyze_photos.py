@@ -27,8 +27,7 @@ def color_label(rgb):
         return "white"
     if max(r, g, b) - min(r, g, b) < 24:
         return "gray" if sum(rgb) / 3 < 175 else "white"
-    return min(COLOR_NAMES, key=lambda name: sum((rgb[i] - ref[i]) ** 2 for i in range(3))
-               for ref in [COLOR_NAMES[name]])
+    return min(COLOR_NAMES, key=lambda name: sum((rgb[i] - COLOR_NAMES[name][i]) ** 2 for i in range(3)))
 
 
 def dominant_colors(image, count=4):
