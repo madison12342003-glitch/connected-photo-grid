@@ -23,9 +23,21 @@ Replace the template's placeholder filenames with local photo paths first. Layer
 
 This is a first renderer, not a fully automatic art director: it does not yet select layer combinations from all 24 photos, create subject cutout masks automatically, draw original line art, or verify Tibetan text. Keep original photos local; the example filenames are placeholders and are not included in the repository.
 
+## Automatic first-pass photomontage plan
+
+After generating local pixel metadata (and optionally merging semantic tags), create an editable multi-layer plan:
+
+```bash
+python scripts/analyze_photos.py input/photos --output output/photo-features.json
+python scripts/make_photomontage_plan.py output/photo-features.json --photo-root input/photos --output output/photomontage-plan.json
+python scripts/compose_photomontage.py output/photomontage-plan.json --photo-root input/photos --output-dir output/photomontage --tile-size 1000
+```
+
+The planner creates two layers per tile: a muted, partly transparent underlay and a larger irregularly masked hero photo. It uses the metadata's colors, elements, and texture to make a first-pass selection. This is intentionally a starting point: inspect the JSON, replace poor pairings, adjust masks/crops, and add selected `scope: "canvas"` bridge layers to carry a real photo or prepared graphic across tile boundaries. With only pixel-level metadata, semantic matching is limited; Gemini or manual tags can improve it. The planner does not generate Tibetan text or line art.
+
 ## Gemini setup
 
-Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-3.5-flash-lite`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
+Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-2.5-flash-lite`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
 
 Install dependencies and set the key as an environment variable:
 
@@ -95,7 +107,7 @@ The example feature records and tile plan are demonstrations. Update metadata an
 
 ## Limits / next step
 
-This adds a usable **single-photo Gemini semantic analysis → validated JSON** module alongside local pixel analysis. It does not yet batch-process the entire library, automatically decide the final nine, or create complex overlapping cutouts, line art, and cross-tile illustration. Those remain future pipeline steps. Original photographs remain local unless explicitly passed to the cloud analyzer.
+This adds a usable **single-photo Gemini semantic analysis → validated JSON** module alongside local pixel analysis. The new planner creates a first-pass two-layer composition per tile, but still needs human review and does not yet automatically extract subject cutouts, generate original line art, or place verified Tibetan typography. Original photographs remain local unless explicitly passed to the cloud analyzer.
 
 ## License
 
