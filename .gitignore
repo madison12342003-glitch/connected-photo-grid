@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+input/
+output/
+*.jpg
+*.jpeg
+*.png
+*.webp
