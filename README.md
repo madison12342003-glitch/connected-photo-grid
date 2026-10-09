@@ -37,7 +37,7 @@ The example feature records and tile plan are demonstrations. Before using them 
 - `examples/sichuan-multilayer-plan.md` — Sichuan editorial collage planning guide
 - `examples/sichuan-features.json` — sample metadata for the layout scorer
 - `examples/sichuan-render-plan.json` — sample local-photo mapping and captions
-- `scripts/analyze_photos.py` — local pixel-level feature extractor\n- `scripts/score_layout.py` — edge-aware layout scorer
+- `scripts/analyze_photos.py` — local pixel-level feature extractor\n- `scripts/select_photos.py` — heuristic nine-photo shortlist selector\n- `scripts/score_layout.py` — edge-aware layout scorer
 - `scripts/compose_grid.py` — local PNG composition/export tool
 - `tests/test_score_layout.py` — scorer tests
 - `.github/workflows/tests.yml` — automated checks on pushes and pull requests
