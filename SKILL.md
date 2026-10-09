@@ -19,119 +19,62 @@ Turn a collection of photographs into one intentional 3×3 editorial composition
 
 ## Workflow
 
-### 1. Inventory every available source
-Analyze all supplied photos before selecting. Do not assume upload order is preference order. Assign each image an ID and record:
-- subject, scene, and narrative value
-- dominant colors and light/weather
-- focal point and safe crop
-- horizon and strong visual directions
-- useful features near all four edges
-- texture, shapes, and negative space
-- cultural or documentary details that must remain accurate
-- possible tile roles and possible neighbors
+### 1. Inventory every source
 
-Be explicit when some historical attachments are unavailable; never claim to have inspected files you cannot access.
+Analyze all accessible photos before selecting. Assign each image an ID and record subject, scene, colors, light/weather, focal point, safe crop, horizon/direction, edge features, texture, negative space, narrative value, and cultural/documentary details. Use local pixel analysis for measurable features and optional Gemini semantic analysis for scene understanding. Never claim to inspect photos that are not available in the current local workspace.
+
+#### Optional Gemini cloud analysis
+
+Install dependencies with `python -m pip install -r requirements.txt`, create a key in [Google AI Studio](https://aistudio.google.com/apikey), and set `GEMINI_API_KEY` in the shell environment. Run:
+
+```bash
+python scripts/analyze_photo.py /path/to/selected-photo.jpg --output output/photo-analysis.json
+```
+
+The script returns validated JSON containing `subject`, `scene_type`, `colors`, `elements`, `composition`, `edge_features`, `narrative_role`, `confidence`, and `notes`. The default model is `gemini-3.5-flash-lite`; availability and free quota are account-dependent. A chosen image is sent to Google's cloud API, so use this only when appropriate for the image's privacy. Keep API keys out of source control; never ask the user to commit original travel photos.
 
 ### 2. Select and sequence the nine
+
 Choose for variety, image quality, story, color, and design flexibility. Avoid nine near-duplicates. Keep a shortlist and backups. Explain exclusions briefly if asked. The center should usually anchor the story, while corners and edge tiles frame or direct the eye; these are heuristics, not rigid rules.
 
 ### 3. Analyze the visual reference
-Extract transferable rules rather than copying unrelated content:
-- grid, margins, and background
-- photo-to-graphic ratio
-- layer stacks within each tile
-- palette and accent distribution
-- typography hierarchy
-- line-art and illustration style
-- recurring motifs, visual echoes, and true cross-grid paths
-- density and negative-space rhythm
 
-See `references/reference-analysis.md`.
+Extract transferable rules rather than copying unrelated content: grid, margins, background, photo-to-graphic ratio, layer stacks, palette, typography hierarchy, line-art style, motifs, cross-grid paths, density, and negative-space rhythm. See `references/reference-analysis.md`.
 
 ### 4. Build the nine-tile plan
+
 Use the A–I grid:
 ```text
 A B C
 D E F
 G H I
 ```
-For every tile specify:
-- role in the whole composition
-- primary photo and crop
-- optional secondary photo/detail
-- background
-- illustration and line art
-- exact text, if any
-- graphic accents and colors
-- connection or echo to neighboring tiles
-- layers to omit to preserve negative space
-
-Use the tile stack as a menu, not a mandatory checklist:
-1. background
-2. primary photo
-3. secondary photo/detail
-4. illustration
-5. line art
-6. typography
-7. color extension
-8. cross-grid layer
+For every tile specify its role, primary photo/crop, optional detail, background, illustration/line art, exact text, accents/colors, neighbor connections, and layers to omit to preserve negative space.
 
 ### 5. Establish the visual system
-Define the background, palette, type system, line weights, photo treatments, margins, and a small motif family before producing detailed tiles. For a white social-feed context, consider warm white/off-white backgrounds, charcoal/black typography and line art, and restrained red accents while preserving natural photo colors. Treat palette values as starting points, not commands to recolor reality.
+
+Define background, palette, typography, line weights, photo treatments, margins, and motifs before detailed tiles. For a white social-feed context, consider warm white/off-white backgrounds, charcoal/black typography and line art, and restrained red accents while preserving natural photo colors.
 
 ### 6. Source and make graphic elements
-Use this priority:
-1. details extracted from the user's photos
-2. contextually supported elements
-3. licensed/permitted assets
-4. newly generated assets where a genuine gap remains
 
-Generate individual illustration assets rather than the entire collage when control and editability matter. Record source and style. Do not add stereotypical regional symbols without scene evidence or user approval. Treat religious and cultural imagery respectfully. See `references/element-layer.md`.
+Prioritize details extracted from the user's photos, contextually supported elements, permitted assets, then generated assets only where needed. Avoid stereotypical regional symbols without scene evidence or user approval. Treat religious and cultural imagery respectfully.
 
 ### 7. Plan connections
-Review all 12 horizontal and vertical neighbor pairs. Use:
-- literal continuation: ridge, road, river, line art, or a designed graphic path
-- visual echo: color, shape, texture, motif, typography, or narrative
-- deliberate contrast when it improves rhythm
 
-Use edge-specific geometry where possible, not a single direction angle for the whole photo. Plan cross-tile artwork on one full canvas and slice it afterward. Do not imply separate photos are the same continuous real-world scene. See `references/cross-grid-rules.md`.
+Review all 12 horizontal and vertical neighbor pairs. Use literal continuation, visual echoes, or deliberate contrast. Plan cross-tile artwork on one full canvas and slice afterward. Do not imply separate photos are the same continuous real-world scene.
 
 ### 8. Compose and render
-Work in this order:
-1. rough nine-tile layout with photo crops
-2. whole-grid balance and color
-3. per-tile backgrounds and secondary details
-4. illustrations and line art
-5. typography with verified text
-6. accents and cross-grid paths
-7. final crop, spacing, and export
 
-If a rendering tool is available, create a low-resolution proof first. Otherwise provide a precise implementation-ready layout specification. Never claim to have exported a final image unless the file was actually created.
+Work from rough photo layout to whole-grid balance, per-tile details, illustrations/line art, verified typography, accents, and final export. Never claim to have exported a final image unless the file was actually created.
 
 ### 9. Quality gate
-Check:
-- each tile has one clear focal point
-- the grid reads as a whole at phone size
-- photo subjects remain recognizable and realistic
-- all 12 boundaries have been reviewed
-- literal paths align after slicing
-- echoes are varied rather than repetitive
-- background and margins suit the intended display
-- text spelling and script rendering are verified
-- generated assets do not masquerade as documentary evidence
-- no accidental tangencies, clipped subjects, or clutter
-- final export dimensions and tile order are correct
+
+Check focal point, phone-size readability, realistic photos, all 12 boundaries, path alignment, varied echoes, suitable margins, correct text, culturally respectful details, clean crops, and final dimensions/order.
 
 ## References
-Use the relevant focused guides:
-- `references/layout-system.md`
-- `references/photo-layer.md`
-- `references/element-layer.md`
-- `references/line-art-layer.md`
-- `references/typography-layer.md`
-- `references/color-system.md`
-- `references/cross-grid-rules.md`
-- `references/reference-analysis.md`
+
+Use relevant focused guides in `references/`: layout, photo, element, line-art, typography, color, cross-grid rules, and reference analysis.
 
 ## Output contract
-Unless asked for a finished render, start with a concise design plan: photo choices, tile roles, layer stacks, palette, typography, and cross-grid relationships. Distinguish observed facts from proposals. Ask only for information that is essential to proceed.
+
+Unless asked for a finished render, start with a concise design plan: photo choices, tile roles, layer stacks, palette, typography, and cross-grid relationships. Distinguish observed facts from proposals. Ask only for information essential to proceed.
