@@ -31,7 +31,7 @@ Install dependencies with `python -m pip install -r requirements.txt`, create a 
 python scripts/analyze_photo.py /path/to/selected-photo.jpg --output output/photo-analysis.json
 ```
 
-The script returns validated JSON containing `subject`, `scene_type`, `colors`, `elements`, `composition`, `edge_features`, `narrative_role`, `confidence`, and `notes`. The default model is `gemini-3.5-flash-lite`; availability and free quota are account-dependent. A chosen image is sent to Google's cloud API, so use this only when appropriate for the image's privacy. Keep API keys out of source control; never ask the user to commit original travel photos.
+The script returns validated JSON containing `subject`, `scene_type`, `colors`, `elements`, `composition`, `edge_features`, `narrative_role`, `confidence`, and `notes`. The default model is `gemini-2.5-flash`; availability and free quota are account-dependent. A chosen image is sent to Google's cloud API, so use this only when appropriate for the image's privacy. Keep API keys out of source control; never ask the user to commit original travel photos.
 
 ### 2. Select and sequence the nine
 
