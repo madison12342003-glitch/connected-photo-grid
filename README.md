@@ -13,7 +13,7 @@
 
 ## Gemini setup
 
-Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-2.5-flash`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
+Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-3.5-flash-lite`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
 
 Install dependencies and set the key as an environment variable:
 
