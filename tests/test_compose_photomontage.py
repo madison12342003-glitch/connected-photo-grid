@@ -27,6 +27,27 @@ class PhotomontageRendererTests(unittest.TestCase):
                 self.assertEqual(im.getpixel((201,100))[:3], (30,90,160))
                 self.assertEqual(im.getpixel((300,100))[:3], (180,30,40))
                 self.assertEqual(im.getpixel((100,300))[:3], (30,90,160))
+
+    def test_canvas_bridge_is_continuous_across_A_B_seam_and_tile_crops(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            photos = root / 'photos'
+            photos.mkdir()
+            Image.new('RGB', (100, 100), (40, 120, 70)).save(photos / 'base.png')
+            Image.new('RGB', (100, 100), (210, 20, 30)).save(photos / 'bridge.png')
+            plan = {'background': '#F7F8F8', 'layers': [
+                {'image': 'base.png', 'scope': 'canvas', 'x': 0, 'y': 0, 'w': 1, 'h': 1},
+                {'image': 'bridge.png', 'scope': 'canvas', 'x': 0.285, 'y': 0.035, 'w': 0.43, 'h': 0.19, 'role': 'cross-tile-bridge'}]}
+            plan_path = root / 'plan.json'
+            plan_path.write_text(json.dumps(plan), encoding='utf-8')
+            out = root / 'out'
+            full_path = renderer.render(plan_path, photos, out, tile_size=200)
+            with Image.open(full_path) as full, Image.open(out / 'A.png') as tile_a, Image.open(out / 'B.png') as tile_b:
+                self.assertEqual(full.getpixel((195, 20))[:3], (210, 20, 30))
+                self.assertEqual(full.getpixel((205, 20))[:3], (210, 20, 30))
+                self.assertEqual(tile_a.getpixel((195, 20))[:3], full.getpixel((195, 20))[:3])
+                self.assertEqual(tile_b.getpixel((5, 20))[:3], full.getpixel((205, 20))[:3])
+
     def test_missing_image_fails_clearly(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp); p = root / 'plan.json'
