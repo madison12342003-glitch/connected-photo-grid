@@ -33,7 +33,7 @@ python scripts/make_photomontage_plan.py output/photo-features.json --photo-root
 python scripts/compose_photomontage.py output/photomontage-plan.json --photo-root input/photos --output-dir output/photomontage --tile-size 1000
 ```
 
-The planner creates two layers per tile: a muted, partly transparent underlay and a larger irregularly masked hero photo. It uses the metadata's colors, elements, and texture to make a first-pass selection. This is intentionally a starting point: inspect the JSON, replace poor pairings, adjust masks/crops, and add selected `scope: "canvas"` bridge layers to carry a real photo or prepared graphic across tile boundaries. With only pixel-level metadata, semantic matching is limited; Gemini or manual tags can improve it. The planner does not generate Tibetan text or line art.
+The planner creates two layers per tile: a muted, partly transparent underlay and a larger irregularly masked hero photo. It also appends a shared photo layer across the A/B boundary after the tile layers, so the bridge remains visible on top rather than being hidden by later full-tile images. It uses the metadata's colors, elements, and texture to make a first-pass selection. This is intentionally a starting point: inspect the JSON, replace poor pairings, adjust masks/crops, and review the bridge crop. The current automatic bridge placement is fixed near the top across A/B; it is not yet content-aware and may need manual adjustment. With only pixel-level metadata, semantic matching is limited; Gemini or manual tags can improve it. The planner does not generate Tibetan text or line art.
 
 ## Gemini setup
 
