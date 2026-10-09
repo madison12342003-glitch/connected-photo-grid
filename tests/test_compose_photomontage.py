@@ -25,7 +25,7 @@ class PhotomontageRendererTests(unittest.TestCase):
                 self.assertEqual(im.size, (600,600))
                 self.assertEqual(im.getpixel((199,100))[:3], (30,90,160))
                 self.assertEqual(im.getpixel((201,100))[:3], (30,90,160))
-                self.assertEqual(im.getpixel((300,300))[:3], (180,30,40))
+                self.assertEqual(im.getpixel((300,100))[:3], (180,30,40))
                 self.assertEqual(im.getpixel((100,300))[:3], (30,90,160))
     def test_missing_image_fails_clearly(self):
         with tempfile.TemporaryDirectory() as tmp:
