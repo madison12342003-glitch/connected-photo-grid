@@ -66,6 +66,13 @@ def validate_result(data: Any) -> dict:
     confidence = data["confidence"]
     if not isinstance(confidence, (int, float)) or not 0 <= confidence <= 1:
         raise ValueError("confidence must be between 0 and 1")
+    nested_fields = {
+        "composition": ["subject_position", "negative_space", "dominant_direction_degrees", "shape_tags", "crop_flexibility"],
+        "edge_features": ["left", "right", "top", "bottom"],
+    }
+    for group, fields in nested_fields.items():
+        if not isinstance(data.get(group), dict) or any(field not in data[group] for field in fields):
+            raise ValueError(f"{group} is missing required fields")
     return data
 
 
