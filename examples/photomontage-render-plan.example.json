@@ -1,0 +1,101 @@
+{
+  "background": "#F7F8F8",
+  "notes": "Template only. Replace paths with local photo filenames. Layers are drawn back-to-front.",
+  "layers": [
+    {
+      "image": "photo-underlay.jpg",
+      "scope": "canvas",
+      "x": 0,
+      "y": 0,
+      "w": 1,
+      "h": 1,
+      "saturation": 0.62,
+      "contrast": 0.92,
+      "opacity": 0.58
+    },
+    {
+      "image": "mountain-bridge.jpg",
+      "scope": "canvas",
+      "x": 0.12,
+      "y": 0.15,
+      "w": 0.62,
+      "h": 0.24,
+      "saturation": 0.78,
+      "contrast": 1.04,
+      "opacity": 0.96,
+      "mask": [
+        [
+          0,
+          0.18
+        ],
+        [
+          0.12,
+          0
+        ],
+        [
+          0.86,
+          0.08
+        ],
+        [
+          1,
+          0.35
+        ],
+        [
+          0.9,
+          0.92
+        ],
+        [
+          0.1,
+          1
+        ]
+      ],
+      "feather": 2
+    },
+    {
+      "image": "prayer-flags-detail.jpg",
+      "scope": "tile",
+      "tile": "B",
+      "x": 0.22,
+      "y": 0.28,
+      "w": 0.7,
+      "h": 0.6,
+      "saturation": 0.86,
+      "contrast": 1.06,
+      "opacity": 1,
+      "mask": [
+        [
+          0.05,
+          0
+        ],
+        [
+          0.96,
+          0.12
+        ],
+        [
+          1,
+          0.84
+        ],
+        [
+          0.24,
+          1
+        ],
+        [
+          0,
+          0.62
+        ]
+      ],
+      "feather": 1
+    },
+    {
+      "image": "gesang-flower-detail.jpg",
+      "scope": "tile",
+      "tile": "E",
+      "x": 0.6,
+      "y": 0.08,
+      "w": 0.34,
+      "h": 0.42,
+      "saturation": 0.72,
+      "opacity": 0.88
+    }
+  ]
+}
