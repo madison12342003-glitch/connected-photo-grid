@@ -20,5 +20,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Smoke-test example CLI
         run: python scripts/score_layout.py examples/sichuan-features.json --top 1 --output /tmp/layout.json
+      - name: Prepare planner smoke-test input
+        run: |
+          python -c "import json; p=json.load(open('examples/sichuan-features.json')); [x.update({'image': 'test-photos/' + x['id'] + '.jpg'}) for x in p['photos']]; json.dump(p, open('/tmp/planner-features.json','w'))"
       - name: Smoke-test photomontage planner
-        run: python scripts/make_photomontage_plan.py examples/sichuan-features.json --output /tmp/photomontage-plan.json
+        run: python scripts/make_photomontage_plan.py /tmp/planner-features.json --output /tmp/photomontage-plan.json
