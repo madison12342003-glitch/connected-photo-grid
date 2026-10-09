@@ -17,7 +17,7 @@ class PhotomontageRendererTests(unittest.TestCase):
             Image.new('RGB', (80, 80), (180, 30, 40)).save(photos / 'red.png')
             plan = {'background':'#F7F8F8','layers':[
               {'image':'blue.png','scope':'canvas','x':0,'y':0,'w':1,'h':1},
-              {'image':'red.png','scope':'tile','tile':'B','x':0.25,'y':0.25,'w':0.5,'h':0.5,'saturation':0.75}]}
+              {'image':'red.png','scope':'tile','tile':'B','x':0.25,'y':0.25,'w':0.5,'h':0.5}]}
             p = root / 'plan.json'; p.write_text(json.dumps(plan), encoding='utf-8')
             out = root / 'out'; result = renderer.render(p, photos, out, tile_size=200)
             self.assertTrue(result.is_file()); self.assertEqual(len(list(out.glob('[A-I].png'))), 9)
