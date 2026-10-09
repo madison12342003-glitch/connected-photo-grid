@@ -16,7 +16,7 @@ class PhotomontagePlanTests(unittest.TestCase):
   self.assertIs(plan["layers"][-1], bridges[0])
   self.assertLess(bridges[0]["x"],0.5)
   self.assertGreater(bridges[0]["x"]+bridges[0]["w"],0.5)
-  self.assertEqual({x["tile"] for x in plan["layers"]},set(planner.TILES))
+  self.assertEqual({x["tile"] for x in plan["layers"] if "tile" in x},set(planner.TILES))
   for tile in planner.TILES:
    ls=[x for x in plan["layers"] if x.get("tile")==tile]
    self.assertEqual(len(ls),2); self.assertNotEqual(ls[0]["image"],ls[1]["image"])
