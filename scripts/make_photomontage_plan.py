@@ -34,6 +34,11 @@ def make_plan(data,photo_root):
  heroes=choose_heroes(valid); used={p["image"] for p in heroes}
  secondary_pool=[p for p in valid if p.get("image") not in used] or list(valid)
  layers=[]
+ # Add one shared photograph across the A/B seam. This is a real canvas layer,
+ # so it is rendered once before slicing and remains aligned in both tiles.
+ bridge_pool = [p for p in valid if p.get("image") not in used] or list(valid)
+ bridge = max(bridge_pool, key=lambda p: (len(p.get("elements", [])), str(p.get("id", ""))))
+ layers.append({"image": bridge["image"], "scope": "canvas", "x": 0.285, "y": 0.035, "w": 0.43, "h": 0.19, "saturation": 0.72, "contrast": 0.98, "opacity": 0.82, "mask": [[0,0.18],[0.12,0],[0.9,0.06],[1,0.28],[0.88,0.92],[0.1,1]], "feather": 5, "role": "cross-tile-bridge", "source_id": bridge.get("id", "")})
  for i,tile in enumerate(TILES):
   hero=heroes[i]
   candidates=[p for p in secondary_pool if p.get("image")!=hero.get("image")]
@@ -47,7 +52,7 @@ def make_plan(data,photo_root):
  return {"background":BG,"palette":{"background":BG,"ink":"#17191B","accent":"#B52B35"},
   "notes":["First-pass automatic plan; review crops and layer order before export.",
   "Each tile has a distinct hero and a different partially visible underlay.",
-  "Canvas-wide photo/text/line-art bridge layers may be added after reviewing the whole grid.",
+  "One shared photo bridge crosses the A/B boundary; review its crop and position.",
   "No Tibetan text is generated automatically; only use verified text and a font with Tibetan support."],
   "source_photo_root":str(photo_root),"layers":layers}
 def main():
