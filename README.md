@@ -2,54 +2,50 @@
 
 > An open-source AI Skill for designing a coherent 3×3 multi-layer editorial photo collage.
 
-## What is this?
+## Pipeline
 
-**Connected Photo Grid** helps an AI agent turn a collection of photographs into one designed composition. Each tile can contain multiple layers—photography, background, secondary details, illustration, line art, typography, and graphic accents—while the nine tiles share a consistent visual system.
+1. **Photo inventory and visual analysis** — record subjects, colors, direction, negative space, crop flexibility, and edge-specific features. At present this metadata is supplied manually or by an external vision model; the scorer itself does not analyze pixels.
+2. **Rank layouts** — score the 12 horizontal/vertical neighbor relationships among nine selected photos.
+3. **Prepare tile plan** — map photo IDs to local file paths and optional title/caption text in `examples/sichuan-render-plan.json`.
+4. **Render/export** — use `scripts/compose_grid.py` to export a high-resolution square PNG. The current renderer supports photo crops, warm-white gutters, a caption panel, typography, and a small red accent per tile.
+5. **Review and refine** — inspect on a phone, check Chinese/Tibetan glyph support with a suitable local font, correct crops, and iterate.
 
-It goes beyond a conventional nine-photo grid. The design combines:
-- **per-tile composition**: each tile has its own hierarchy and optional layer stack
-- **whole-grid cohesion**: consistent palette, typography, margins, and recurring motifs
-- **cross-grid relationships**: literal continuity where appropriate, plus visual echoes between tiles
-- **photographic integrity**: real source images remain recognizable and are not casually transformed into synthetic scenes
+## Quick start
 
-## Workflow
+Keep original photos on your own computer; they do **not** need to be committed to GitHub.
 
-1. Inventory and analyze all accessible source photos.
-2. Select nine varied images based on quality, story, color, and crop flexibility.
-3. Analyze the visual reference for transferable design rules.
-4. Map the role and layer stack of each tile.
-5. Define the palette, typography, background, and motif family.
-6. Source or create individual illustration and line-art assets as needed.
-7. Plan all 12 neighbor relationships and any full-canvas cross-tile paths.
-8. Render a proof, inspect it at phone size, and revise.
-9. Verify text, cultural context, cropping, alignment, and export.
+```bash
+python -m pip install Pillow
+# Put nine local photos in input/photos/ named A.jpg ... I.jpg
+python scripts/score_layout.py examples/sichuan-features.json --top 1 --output output/layout.json
+python scripts/compose_grid.py examples/sichuan-render-plan.json output/layout.json --photo-root input/photos --output output/sichuan-grid.png --size 3000
+```
+
+The example feature records and tile plan are demonstrations. Before using them for a real trip, update metadata and image paths to match the actual photos. You may set a font file path in the render plan; use a font that supports the scripts used in your captions.
+
+## What the Skill covers
+
+- Per-tile composition and optional layer stacks
+- Whole-grid palette, typography, margins, and recurring motifs
+- Twelve adjacent tile relationships and full-canvas paths
+- Photographic integrity and culturally grounded graphic elements
 
 ## Repository map
 
 - `SKILL.md` — main agent instructions
-- `references/layout-system.md` — tile roles and multi-layer layout
-- `references/photo-layer.md` — photo selection and realism
-- `references/element-layer.md` — illustration sources and asset metadata
-- `references/line-art-layer.md` — line-art style and continuity
-- `references/typography-layer.md` — text accuracy and hierarchy
-- `references/color-system.md` — palette and distribution
-- `references/cross-grid-rules.md` — adjacency and full-canvas paths
-- `references/reference-analysis.md` — how to extract rules from a visual reference
-- `examples/sichuan-multilayer-plan.md` — example planning guide for Western Sichuan travel photos
-- `scripts/score_layout.py` — lightweight edge-aware layout-scoring prototype\n- `tests/test_score_layout.py` — unit tests for scoring behavior and input validation\n- `.github/workflows/tests.yml` — runs unit tests and a CLI smoke test on pushes and pull requests
+- `references/` — layout, photo, element, line-art, typography, color, and cross-grid rules
+- `examples/sichuan-multilayer-plan.md` — Sichuan editorial collage planning guide
+- `examples/sichuan-features.json` — sample metadata for the layout scorer
+- `examples/sichuan-render-plan.json` — sample local-photo mapping and captions
+- `scripts/score_layout.py` — edge-aware layout scorer
+- `scripts/compose_grid.py` — local PNG composition/export tool
+- `tests/test_score_layout.py` — scorer tests
+- `.github/workflows/tests.yml` — automated checks on pushes and pull requests
 
-## Western Sichuan example
+## Limits / next step
 
-The first example uses a restrained warm-white, black, and red graphic system while retaining natural colors in photographs of mountains, roads, prayer flags, architecture, and flowers. Regional motifs are optional and should be grounded in the actual source material; do not add symbols just because they are stereotypically associated with a place.
-
-## Limits
-
-The scoring script ranks layouts from structured metadata; it does not inspect image pixels or replace visual judgment. Final text accuracy, cultural context, and image quality require review. A Skill supplies reusable instructions and tools; it does not guarantee that every host application can execute image editing automatically.
+This is now a usable **metadata → ranked layout → basic PNG export** path, but it is not yet the full automated visual-analysis and art-directed multilayer pipeline. The scorer does not inspect photo pixels, and the renderer currently creates a clean editorial grid rather than arbitrary overlapping cutouts, complex line art, or cross-tile illustration. Those are the next implementation layer. Original photographs remain local, so large images need not be uploaded to the repository.
 
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
-## Status
-
-Multi-layer design system in progress. The repository includes composition references, a planning example, a layout-scoring prototype, unit tests, and a GitHub Actions test workflow. The scorer still depends on manually or externally generated metadata; automated pixel analysis and a complete layered rendering/export pipeline remain separate implementation tasks. Check the Actions tab for the first CI run after the workflow is triggered.
