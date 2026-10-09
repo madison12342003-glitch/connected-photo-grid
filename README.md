@@ -13,7 +13,7 @@
 
 ## Gemini setup
 
-Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-3.5-flash-lite`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
+Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-2.5-flash`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
 
 Install dependencies and set the key as an environment variable:
 
@@ -37,7 +37,7 @@ The photo is sent to Google's API for analysis. Do not use this for images you a
 
 ## Gemini batch workflow
 
-The batch script `scripts/analyze_photos_gemini.py` accepts a local image folder or the JSON emitted by `scripts/analyze_photos.py`. It analyzes images one at a time, writes merge-compatible semantic JSON, and supports `--limit` and `--pause` to help manage API quota. Records are matched by filename stem, so use unique filenames.
+The optional batch script `scripts/analyze_photos_gemini.py` analyzes selected local images one at a time. Check its `--help` output for supported inputs and quota controls. The single-image entry point `scripts/analyze_photo.py` is the simplest way to validate API access and inspect the JSON schema before batch runs.
 
 ```bash
 python scripts/analyze_photos.py input/photos --output output/pixel-features.json
