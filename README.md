@@ -36,7 +36,7 @@ It goes beyond a conventional nine-photo grid. The design combines:
 - `references/cross-grid-rules.md` — adjacency and full-canvas paths
 - `references/reference-analysis.md` — how to extract rules from a visual reference
 - `examples/sichuan-multilayer-plan.md` — example planning guide for Western Sichuan travel photos
-- `scripts/score_layout.py` — lightweight layout-scoring prototype
+- `scripts/score_layout.py` — lightweight edge-aware layout-scoring prototype\n- `tests/test_score_layout.py` — unit tests for scoring behavior and input validation\n- `.github/workflows/tests.yml` — runs unit tests and a CLI smoke test on pushes and pull requests
 
 ## Western Sichuan example
 
@@ -52,4 +52,4 @@ MIT. See [LICENSE](LICENSE).
 
 ## Status
 
-Multi-layer design system in progress. The repository includes composition references and a planning example; automated pixel analysis and a complete rendering pipeline remain separate implementation tasks.
+Multi-layer design system in progress. The repository includes composition references, a planning example, a layout-scoring prototype, unit tests, and a GitHub Actions test workflow. The scorer still depends on manually or externally generated metadata; automated pixel analysis and a complete layered rendering/export pipeline remain separate implementation tasks. Check the Actions tab for the first CI run after the workflow is triggered.
