@@ -35,6 +35,22 @@ python scripts/analyze_photo.py /path/to/photo.jpg --output output/photo-A.json
 
 The photo is sent to Google's API for analysis. Do not use this for images you are not comfortable sending to a cloud service. The script never uploads your whole photo library automatically; run it only on the photos you choose.
 
+## Gemini batch workflow
+
+The batch script `scripts/analyze_photos_gemini.py` accepts a local image folder or the JSON emitted by `scripts/analyze_photos.py`. It analyzes images one at a time, writes merge-compatible semantic JSON, and supports `--limit` and `--pause` to help manage API quota. Records are matched by filename stem, so use unique filenames.
+
+```bash
+python scripts/analyze_photos.py input/photos --output output/pixel-features.json
+python scripts/analyze_photos_gemini.py input/photos --limit 3 --output output/gemini-semantic.json
+python scripts/merge_photo_analysis.py output/pixel-features.json output/gemini-semantic.json --output output/combined-features.json
+python scripts/select_photos.py output/combined-features.json --output output/nine-photo-features.json
+python scripts/score_layout.py output/nine-photo-features.json --top 1 --output output/layout.json
+python scripts/make_render_plan.py output/nine-photo-features.json --photo-root input/photos --output output/render-plan.json
+python scripts/compose_grid.py output/render-plan.json output/layout.json --photo-root input/photos --output output/sichuan-grid.png --size 3000
+```
+
+Start with a small `--limit` to check results and quota before analyzing the full collection. Selection remains heuristic; review the chosen photos and crops before publishing.
+
 ## Local layout and rendering
 
 Keep original photos on your own computer; they do **not** need to be committed to GitHub.
