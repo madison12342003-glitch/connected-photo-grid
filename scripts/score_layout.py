@@ -146,7 +146,7 @@ def main() -> None:
     rendered = json.dumps(results, ensure_ascii=False, indent=2)
     if args.output:
         with open(args.output, "w", encoding="utf-8") as handle:
-            handle.write(rendered + "\\n")
+            handle.write(rendered + chr(10))
     else:
         print(rendered)
 
