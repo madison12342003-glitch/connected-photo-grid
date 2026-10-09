@@ -43,10 +43,10 @@ class PhotomontageRendererTests(unittest.TestCase):
             out = root / 'out'
             full_path = renderer.render(plan_path, photos, out, tile_size=200)
             with Image.open(full_path) as full, Image.open(out / 'A.png') as tile_a, Image.open(out / 'B.png') as tile_b:
-                self.assertEqual(full.getpixel((195, 20))[:3], (210, 20, 30))
-                self.assertEqual(full.getpixel((205, 20))[:3], (210, 20, 30))
-                self.assertEqual(tile_a.getpixel((195, 20))[:3], full.getpixel((195, 20))[:3])
-                self.assertEqual(tile_b.getpixel((5, 20))[:3], full.getpixel((205, 20))[:3])
+                self.assertEqual(full.getpixel((195, 30))[:3], (210, 20, 30))
+                self.assertEqual(full.getpixel((205, 30))[:3], (210, 20, 30))
+                self.assertEqual(tile_a.getpixel((195, 30))[:3], full.getpixel((195, 20))[:3])
+                self.assertEqual(tile_b.getpixel((5, 30))[:3], full.getpixel((205, 20))[:3])
 
     def test_missing_image_fails_clearly(self):
         with tempfile.TemporaryDirectory() as tmp:
