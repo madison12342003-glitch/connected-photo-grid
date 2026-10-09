@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 """Rank 3x3 photo layouts using supplied visual-feature metadata.
 
-This dependency-free prototype does not inspect image pixels. It scores the
-actual touching edges when edge metadata exists, falling back to whole-photo
-features when it does not.
-
-Input JSON contains exactly nine records under "photos". Each record needs an
-"id" and may include direction, shape, colors, elements/object, texture, space,
-narrative, plus right_edge/left_edge/top_edge/bottom_edge dictionaries.
+This dependency-free prototype does not inspect image pixels. It scores touching
+edges when edge metadata exists, falling back to whole-photo features.
 """
 import argparse
-import itertools
+import heapq
 import json
+from itertools import permutations
 from typing import Dict, Iterable, List, Sequence, Tuple
 
 DIMENSIONS = ("direction", "shape", "color", "object", "texture", "space", "narrative")
@@ -45,8 +41,10 @@ def direction_score(a, b) -> float:
 def score_edges(a: dict, b: dict, orientation: str) -> Tuple[float, Dict[str, float]]:
     if orientation == "horizontal":
         ea, eb = a.get("right_edge", {}), b.get("left_edge", {})
-    else:
+    elif orientation == "vertical":
         ea, eb = a.get("bottom_edge", {}), b.get("top_edge", {})
+    else:
+        raise ValueError(f"Unknown orientation: {orientation}")
 
     def values(name, whole_a, whole_b):
         return ea.get(name, whole_a), eb.get(name, whole_b)
@@ -72,7 +70,7 @@ def score_edges(a: dict, b: dict, orientation: str) -> Tuple[float, Dict[str, fl
 
 
 def adjacency_pairs(layout: Sequence[str]) -> Iterable[Tuple[str, str, str]]:
-    # A B C / D E F / G H I
+    """Yield the 12 touching pairs in A B C / D E F / G H I order."""
     for row in range(3):
         for col in range(2):
             yield layout[row * 3 + col], layout[row * 3 + col + 1], "horizontal"
@@ -84,9 +82,15 @@ def adjacency_pairs(layout: Sequence[str]) -> Iterable[Tuple[str, str, str]]:
 def score_all(photos: List[dict], top_k: int) -> List[dict]:
     if len(photos) != 9:
         raise ValueError(f"Expected exactly 9 photo records; got {len(photos)}")
-    ids = [p["id"] for p in photos]
+    try:
+        ids = [p["id"] for p in photos]
+    except (KeyError, TypeError) as exc:
+        raise ValueError('Every photo record must contain an "id"') from exc
     if len(set(ids)) != 9:
         raise ValueError("Photo IDs must be unique")
+    if top_k < 1:
+        raise ValueError("--top must be at least 1")
+
     by_id = {p["id"]: p for p in photos}
     cache = {}
 
@@ -96,21 +100,27 @@ def score_all(photos: List[dict], top_k: int) -> List[dict]:
             cache[key] = score_edges(by_id[a_id], by_id[b_id], orientation)
         return cache[key]
 
-    ranked = []
-    for perm in itertools.permutations(ids):
+    # Keep only the best K candidates in memory instead of retaining all 9!
+    # layouts and their 12 edge-detail records.
+    best = []
+    for perm in permutations(ids):
+        total = sum(pair(a, b, orientation)[0]
+                    for a, b, orientation in adjacency_pairs(perm))
+        entry = (total, perm)
+        if len(best) < top_k:
+            heapq.heappush(best, entry)
+        elif total > best[0][0]:
+            heapq.heapreplace(best, entry)
+
+    ranked = sorted(best, key=lambda item: item[0], reverse=True)
+    results = []
+    for total, perm in ranked:
         edge_data = []
-        total = 0.0
         for a, b, orientation in adjacency_pairs(perm):
             value, details = pair(a, b, orientation)
-            total += value
             edge_data.append({"from": a, "to": b, "orientation": orientation,
                               "score": round(value, 3),
                               "details": {k: round(v, 3) for k, v in details.items()}})
-        ranked.append((total, perm, edge_data))
-    ranked.sort(key=lambda item: item[0], reverse=True)
-
-    results = []
-    for total, perm, edge_data in ranked[:max(1, top_k)]:
         results.append({
             "layout": [list(perm[0:3]), list(perm[3:6]), list(perm[6:9])],
             "score": round(total, 3),
@@ -126,13 +136,17 @@ def main() -> None:
     parser.add_argument("--top", type=int, default=10, help="Number of layouts to return")
     parser.add_argument("--output", help="Optional JSON output file")
     args = parser.parse_args()
+    if args.top < 1:
+        parser.error("--top must be at least 1")
     with open(args.input, "r", encoding="utf-8") as handle:
         data = json.load(handle)
+    if not isinstance(data, dict) or not isinstance(data.get("photos"), list):
+        parser.error('Input JSON must contain a "photos" array')
     results = score_all(data["photos"], args.top)
     rendered = json.dumps(results, ensure_ascii=False, indent=2)
     if args.output:
         with open(args.output, "w", encoding="utf-8") as handle:
-            handle.write(rendered + "\n")
+            handle.write(rendered + "\\n")
     else:
         print(rendered)
 
