@@ -20,3 +20,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Smoke-test example CLI
         run: python scripts/score_layout.py examples/sichuan-features.json --top 1 --output /tmp/layout.json
+      - name: Smoke-test photomontage planner
+        run: python scripts/make_photomontage_plan.py examples/sichuan-features.json --output /tmp/photomontage-plan.json
