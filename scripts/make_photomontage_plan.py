@@ -49,7 +49,7 @@ def make_plan(data,photo_root):
    "y":.07 if i%3 else .12,"w":.90 if i%2==0 else .84,"h":.82 if i%3 else .78,
    "saturation":.92,"contrast":1.03,"opacity":1,"mask":MASKS[i%len(MASKS)],"feather":2,
    "role":"hero","source_id":hero.get("id","")})
- return {"background":BG,"palette":{"background":BG,"ink":"#17191B","accent":"#B52B35"},
+ # Append bridge after tile layers so it sits visibly on top and is not hidden by full-tile underlays.\n layers.append({"image": bridge["image"], "scope": "canvas", "x": 0.285, "y": 0.035, "w": 0.43, "h": 0.19, "saturation": 0.72, "contrast": 0.98, "opacity": 0.82, "mask": [[0,0.18],[0.12,0],[0.9,0.06],[1,0.28],[0.88,0.92],[0.1,1]], "feather": 5, "role": "cross-tile-bridge", "source_id": bridge.get("id", "")})\n return {"background":BG,"palette":{"background":BG,"ink":"#17191B","accent":"#B52B35"},
   "notes":["First-pass automatic plan; review crops and layer order before export.",
   "Each tile has a distinct hero and a different partially visible underlay.",
   "One shared photo bridge crosses the A/B boundary; review its crop and position.",
