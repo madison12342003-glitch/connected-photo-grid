@@ -1,0 +1,19 @@
+{
+  "background": "#F7F4EE",
+  "ink": "#1E1D1B",
+  "accent": "#B82E2E",
+  "margin": 36,
+  "gutter": 24,
+  "font": null,
+  "tiles": {
+    "A": {"image": "A.jpg", "title": "川西 · 山野", "caption": "MOUNTAIN / 01"},
+    "B": {"image": "B.jpg", "title": "风与经幡", "caption": "WIND / 02"},
+    "C": {"image": "C.jpg", "title": "人文印记", "caption": "CULTURE / 03"},
+    "D": {"image": "D.jpg", "title": "在路上", "caption": "JOURNEY / 04"},
+    "E": {"image": "E.jpg", "title": "雪山与云", "caption": "LANDSCAPE / 05"},
+    "F": {"image": "F.jpg", "title": "山谷回声", "caption": "VALLEY / 06"},
+    "G": {"image": "G.jpg", "title": "草木之间", "caption": "FIELD / 07"},
+    "H": {"image": "H.jpg", "title": "旅途细节", "caption": "DETAIL / 08"},
+    "I": {"image": "I.jpg", "title": "远方", "caption": "WEST SICHUAN / 09"}
+  }
+}
