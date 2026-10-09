@@ -20,7 +20,7 @@ class PhotomontageRendererTests(unittest.TestCase):
               {'image':'red.png','scope':'tile','tile':'B','x':0.25,'y':0.25,'w':0.5,'h':0.5,'saturation':0.75}]}
             p = root / 'plan.json'; p.write_text(json.dumps(plan), encoding='utf-8')
             out = root / 'out'; result = renderer.render(p, photos, out, tile_size=200)
-            self.assertTrue(result.is_file()); self.assertEqual(len(list(out.glob('[A-I].png')), 9)
+            self.assertTrue(result.is_file()); self.assertEqual(len(list(out.glob('[A-I].png'))), 9)
             with Image.open(result) as im:
                 self.assertEqual(im.size, (600,600))
                 self.assertEqual(im.getpixel((199,100))[:3], (30,90,160))
