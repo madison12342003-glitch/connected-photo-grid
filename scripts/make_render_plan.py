@@ -22,8 +22,8 @@ def main():
         photo_id = str(photo["id"])
         tiles[photo_id] = {"image": image, "title": "", "caption": ""}
     plan = {
-        "background": "#F7F4EE", "ink": "#1E1D1B", "accent": "#B82E2E",
-        "margin": 36, "gutter": 24, "font": None, "photo_root_hint": args.photo_root,
+        "background": "#F7F8F8", "ink": "#17191B", "accent": "#B52B35",
+        "margin": 18, "gutter": 10, "font": None, "photo_root_hint": args.photo_root,
         "tiles": tiles,
     }
     out = Path(args.output)
