@@ -13,6 +13,7 @@ class PhotomontagePlanTests(unittest.TestCase):
   bridges=[x for x in plan["layers"] if x.get("role")=="cross-tile-bridge"]
   self.assertEqual(len(bridges),1)
   self.assertEqual(bridges[0]["scope"],"canvas")
+  self.assertIs(plan["layers"][-1], bridges[0])
   self.assertLess(bridges[0]["x"],0.5)
   self.assertGreater(bridges[0]["x"]+bridges[0]["w"],0.5)
   self.assertEqual({x["tile"] for x in plan["layers"]},set(planner.TILES))
