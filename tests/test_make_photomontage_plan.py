@@ -9,7 +9,12 @@ class PhotomontagePlanTests(unittest.TestCase):
   for i in range(12):
    photos.append({"id":f"p{i}","image":f"p{i}.jpg","colors":[["white","blue"],["red","black"],["gray","green"]][i%3],"elements":[["mountain"],["flag"],["road"],["yak"]][i%4],"texture":[["rock"],["fabric"],["water"]][i%3],"narrative":[f"role{i}"]})
   plan=planner.make_plan({"photos":photos},"input/photos")
-  self.assertEqual(len(plan["layers"]),18)
+  self.assertEqual(len(plan["layers"]),19)
+  bridges=[x for x in plan["layers"] if x.get("role")=="cross-tile-bridge"]
+  self.assertEqual(len(bridges),1)
+  self.assertEqual(bridges[0]["scope"],"canvas")
+  self.assertLess(bridges[0]["x"],0.5)
+  self.assertGreater(bridges[0]["x"]+bridges[0]["w"],0.5)
   self.assertEqual({x["tile"] for x in plan["layers"]},set(planner.TILES))
   for tile in planner.TILES:
    ls=[x for x in plan["layers"] if x.get("tile")==tile]
