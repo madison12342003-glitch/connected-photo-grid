@@ -11,6 +11,18 @@
 5. **Render/export** — use `scripts/compose_grid.py` to export a high-resolution square PNG. The current renderer supports photo crops, warm-white gutters, a caption panel, typography, and a small red accent per tile.
 6. **Review and refine** — inspect on a phone, check Chinese/Tibetan glyph support with a suitable local font, correct crops, and iterate.
 
+## Multi-layer photomontage renderer
+
+The original `scripts/compose_grid.py` creates a simple grid. For layered overlap and cross-tile continuity, use `scripts/compose_photomontage.py` with `examples/photomontage-render-plan.example.json` as a template:
+
+```bash
+python scripts/compose_photomontage.py examples/photomontage-render-plan.example.json --photo-root input/photos --output-dir output/photomontage --tile-size 1000
+```
+
+Replace the template's placeholder filenames with local photo paths first. Layers are rendered back-to-front. A `scope: "canvas"` layer is positioned on the full 3×3 canvas, allowing a photograph or prepared graphic to cross tile boundaries and align after slicing. A `scope: "tile"` layer belongs to one tile A–I. Layer plans support normalized placement, polygon masks, feathering, opacity, saturation, contrast, and brightness. The script exports the full composition and nine separate square PNGs.
+
+This is a first renderer, not a fully automatic art director: it does not yet select layer combinations from all 24 photos, create subject cutout masks automatically, draw original line art, or verify Tibetan text. Keep original photos local; the example filenames are placeholders and are not included in the repository.
+
 ## Gemini setup
 
 Use Python 3.11+ and create an API key in [Google AI Studio](https://aistudio.google.com/apikey). The script uses the official `google-genai` SDK. The default model is `gemini-3.5-flash-lite`; model access and free quotas vary by account and can change. Check [official pricing and free-tier details](https://ai.google.dev/gemini-api/docs/pricing) before batch analysis. Free-tier requests may be subject to rate limits and Google data-use terms.
