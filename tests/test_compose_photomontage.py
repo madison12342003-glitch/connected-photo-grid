@@ -48,7 +48,46 @@ class PhotomontageRendererTests(unittest.TestCase):
                 self.assertEqual(tile_a.getpixel((195, 30))[:3], full.getpixel((195, 30))[:3])
                 self.assertEqual(tile_b.getpixel((5, 30))[:3], full.getpixel((205, 30))[:3])
 
-    def test_missing_image_fails_clearly(self):
+
+    def test_saturation_control_reduces_color_without_changing_geometry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            photos = root / "photos"
+            photos.mkdir()
+            Image.new("RGB", (80, 80), (220, 40, 40)).save(photos / "red.png")
+            plan = {"background": "#F7F8F8", "layers": [
+                {"image": "red.png", "scope": "canvas", "x": 0, "y": 0, "w": 1, "h": 1,
+                 "saturation": 0.25}
+            ]}
+            plan_path = root / "plan.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            result = renderer.render(plan_path, photos, root / "out", tile_size=200)
+            with Image.open(result) as image:
+                pixel = image.getpixel((300, 300))
+                self.assertGreater(pixel[0], pixel[1])
+                self.assertGreater(pixel[0], pixel[2])
+                self.assertLess(pixel[0] - pixel[1], 220 - 40)
+                self.assertEqual(image.size, (600, 600))
+
+    def test_polygon_mask_preserves_background_outside_cutout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            photos = root / "photos"
+            photos.mkdir()
+            Image.new("RGB", (80, 80), (220, 40, 40)).save(photos / "red.png")
+            plan = {"background": "#F7F8F8", "layers": [
+                {"image": "red.png", "scope": "canvas", "x": 0, "y": 0, "w": 1, "h": 1},
+                {"image": "red.png", "scope": "tile", "tile": "E", "x": 0, "y": 0, "w": 1, "h": 1,
+                 "mask": [[0.25, 0.25], [0.75, 0.25], [0.75, 0.75], [0.25, 0.75]]}
+            ]}
+            plan_path = root / "plan.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            result = renderer.render(plan_path, photos, root / "out", tile_size=200)
+            with Image.open(result) as image:
+                self.assertEqual(image.getpixel((300, 300))[:3], (220, 40, 40))
+                self.assertEqual(image.getpixel((210, 210))[:3], (220, 40, 40))
+                self.assertEqual(image.getpixel((100, 100))[:3], (220, 40, 40))
+\n    def test_missing_image_fails_clearly(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp); p = root / 'plan.json'
             p.write_text(json.dumps({'layers':[{'image':'missing.jpg','scope':'canvas'}]}), encoding='utf-8')
